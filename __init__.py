@@ -47,6 +47,7 @@ def sonify_wind(time, brightness, dur):
     dobj = soni.notebook_display(show_waveform=0)
 
 def sonify_lightcurve(time, brightness, style='wind', length='medium'):
+    print(time, brightness)
     if length in duration.keys():
         dur = duration[length]
     else:
