@@ -1,4 +1,4 @@
-from strauss import Synthesizer, Score, Sonification, Objects, Events, 
+from strauss import Synthesizer, Score, Sonification, Objects, Events
 import matplotlib.pyplot
 import pandas as pd
 
