@@ -46,39 +46,53 @@ def sonify_chord(time, brightness, dur, ticks=True):
     dobj = soni.notebook_display(show_waveform=0)
 
 def sonify_notes(time, brightness, dur, ticks=True):
-    generator = Synthesizer()
-    generator.modify_preset({'filter':'on',
-                             'cutoff':'0.8',
-                             'note_length':0.15,
-                             'volume_envelope': {'use':'on',
-                                                 'A':0.01,
-                                                 'D':0.0,
-                                                 'S':1.,
-                                                 'R':0.2}})
     
     notes = [["C3","D#3","F3","G3","A#3","C4","D#4","F4","G4","A#4","C5","D#5","F5","G5","A#5"]]
+
     score =  Score(notes, dur, pitch_binning='uniform')
 
-    print(brightness.dtype, time.dtype)
-    
-    data = {'pitch':brightness[::1],
-            'time': time[::1],
-            }#'pitch_shift': np.random.random(time[::1].size)*1e-2,}
+    # what about adaptive?
+    #score =  Score(notes, 15, pitch_binning='adaptive')
 
+    maps = {'pitch': brightness,
+            'time': time}
+
+    # specify audio system (e.g. mono, stereo, 5.1, ...)
+    system = "stereo"
+
+    # set up synth (this generates the sound using mathematical waveforms)
+    generator = Synthesizer()
+    generator.load_preset('pitch_mapper')
+    generator.modify_preset({'note_length':0.15,
+                             'volume_envelope': {'use':'on',
+                                                 # A,D,R values in seconds, S sustain fraction from 0-1 that note
+                                                 # will 'decay' to (after time A+D)
+                                                 'A':0.02,    # ✏️ for such a fast sequence, using ~10 ms values
+                                                 'D':0.02,    # ✏️ for such a fast sequence, using ~10 ms values
+                                                 'S':1.,      # ✏️ decay to volume 0
+                                                 'R':0.001}}) # ✏️ for such a fast sequence, using ~10 ms values
+
+    # set 0 to 100 percentile limits so the full pitch range is used...
+    # setting 0 to 101 for pitch means the sonification is 1% longer than
+    # the time needed to trigger each note - by making this more than 100%
+    # we give all the notes time to ring out (setting this at 100% means
+    # the final note is triggered at the momement the sonification ends)
     lims = {'time': ('0','101'),
-            #'pitch_shift': (0,1),
+            'pitch_shift': ('0','100'),
             'pitch': ('0','100')}
-    
+
     # set up source
-    sources = Events(data.keys())
-    sources.fromdict(data)
+    sources = Events(maps.keys())
+    sources.fromdict(maps)
     sources.apply_mapping_functions(map_lims=lims)
-    soni = Sonification(score, sources, generator, "stereo")
-    soni.render()
+
+    soni = Sonification(score, sources, generator, system)
     if ticks:
         soni.add_ticks(1., duration=0.04, tick_vol=0.5)
-    dobj = soni.notebook_display(show_waveform=0)
 
+    soni.render()
+    dobj = soni.notebook_display(show_waveform=0)
+    
 
 def sonify_wind(time, brightness, dur, ticks=True):    
     generator = Synthesizer()
