@@ -51,6 +51,7 @@ def sonify_lightcurve(time, brightness, style='wind', length='medium'):
         dur = duration[length]
     else:
         raise Exception(f"length {length} not supported!")
+    print(style)
     if style == 'wind':
         sonify_wind(time, brightness, dur)
     elif style == 'chord':
