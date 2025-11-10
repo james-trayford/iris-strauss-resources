@@ -1,5 +1,5 @@
 [project]
-name = "iris_sonification_resources"
+name = "iris_strauss_resources"
 version = "0.1.0"
 dependencies = [
     "strauss @ git+https://github.com/james-trayford/strauss@stk-requests",
