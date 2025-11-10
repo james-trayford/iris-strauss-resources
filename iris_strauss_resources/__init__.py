@@ -7,6 +7,7 @@ from strauss.generator import Synthesizer, Sampler
 import IPython.display as ipd
 import matplotlib.pyplot
 import pandas as pd
+import np
 
 duration = {"shortest": 4.,
             "short": 8.,
