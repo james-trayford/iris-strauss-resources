@@ -18,7 +18,7 @@ duration = {"shortest": 4.,
 def setup():
     pass
 
-def sonify_chord(time, brightness, dur):
+def sonify_chord(time, brightness, dur, ticks=True):
     #generator = Sampler('Harps-Strings-Orchestra-V1.0.sf2',sf_preset=24)
     generator = Synthesizer()
     generator.modify_preset({'filter':'on'})
@@ -40,9 +40,11 @@ def sonify_chord(time, brightness, dur):
 
     soni = Sonification(score, sources, generator, "stereo")
     soni.render()
+    if ticks:
+        soni.add_ticks(1., duration=0.04, tick_vol=0.5)
     dobj = soni.notebook_display(show_waveform=0)
 
-def sonify_notes(time, brightness, dur):
+def sonify_notes(time, brightness, dur, ticks=True):
     generator = Synthesizer()
     generator.modify_preset({'filter':'on',
                              'cutoff':'0.8',
@@ -69,10 +71,12 @@ def sonify_notes(time, brightness, dur):
     sources.apply_mapping_functions(map_lims=lims)
     soni = Sonification(score, sources, generator, "stereo")
     soni.render()
+    if ticks:
+        soni.add_ticks(1., duration=0.04, tick_vol=0.5)
     dobj = soni.notebook_display(show_waveform=0)
 
 
-def sonify_wind(time, brightness, dur):    
+def sonify_wind(time, brightness, dur, ticks=True):    
     generator = Synthesizer()
     generator.load_preset('windy')
 
@@ -93,6 +97,8 @@ def sonify_wind(time, brightness, dur):
 
     soni = Sonification(score, sources, generator, 'stereo')
     soni.render()
+    if ticks:
+        soni.add_ticks(1., duration=0.04, tick_vol=0.5)
     dobj = soni.notebook_display(show_waveform=0)
 
 def sonify_lightcurve(time, brightness, style='wind', length='medium'):
