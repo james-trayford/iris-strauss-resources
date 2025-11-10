@@ -25,9 +25,6 @@ def sonify_notes(time, brightness, dur):
     pass
 
 def sonify_wind(time, brightness, dur):
-    generator.modify_preset({'filter':'on',
-                         'looping':'forwardback',
-                         'loop_start': 0.8, 'loop_end': 1.2}) # ✏️ for such a fast sequence, using ~10 ms values
 
     generator = Synthesizer()
     generator.load_preset('windy')
