@@ -45,7 +45,7 @@ def sonify_wind(time, brightness, dur):
     plims = {'cutoff': (0.15,0.95)}
     sources.apply_mapping_functions(map_lims=lims, param_lims=plims)
 
-    soni = Sonification(score, sources, generator, system)
+    soni = Sonification(score, sources, generator, 'stereo')
     soni.render()
     dobj = soni.notebook_display(show_waveform=0)
 
