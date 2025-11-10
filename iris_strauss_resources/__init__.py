@@ -1,4 +1,10 @@
-from strauss import Synthesizer, Score, Sonification, Objects, Events
+import strauss
+from strauss.sonification import Sonification
+from strauss.sources import Objects, Events
+from strauss import channels
+from strauss.score import Score
+from strauss.generator import Synthesizer, Sampler
+import IPython.display as ipd
 import matplotlib.pyplot
 import pandas as pd
 
