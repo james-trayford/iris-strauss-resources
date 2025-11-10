@@ -1,6 +1,6 @@
 [project]
 name = "iris_strauss_resources"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
     "strauss @ git+https://github.com/james-trayford/strauss@stk-requests",
     "ffmpeg"
