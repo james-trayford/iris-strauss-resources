@@ -10,7 +10,7 @@ duration = {"shortest": 4.,
 
 
 def setup():
-    
+    pass
 
 def sonify_chord(time, brightness, dur):
     pass
