@@ -62,9 +62,10 @@ def sonify_notes(time, brightness, dur, ticks=True):
     data = {'pitch':brightness[::1],
             'time': time[::1],
             'pitch_shift': np.random.random(time[::1].size)*1e-2,}
-    
-    lims = {'time_evo': ('0','100'),
-            'cutoff': ('0','100')}
+
+    lims = {'time': ('0','101'),
+            'pitch_shift': (0,1),
+            'pitch': ('0','100')}
     
     # set up source
     sources = Events(data.keys())
