@@ -38,7 +38,7 @@ def sonify_chord(time, brightness, dur):
     plims = {'cutoff': (0.25,0.95)}
     sources.apply_mapping_functions(map_lims=lims, param_lims=plims)
 
-    soni = Sonification(score, sources, generator, system)
+    soni = Sonification(score, sources, generator, "stereo")
     soni.render()
     dobj = soni.notebook_display(show_waveform=0)
 
@@ -57,8 +57,8 @@ def sonify_notes(time, brightness, dur):
     score =  Score(notes, dur)
 
     data = {'pitch':brightness[::1],
-            'time': times[::1],
-            'pitch_shift': np.random.random(times[::1].size)*1e-2,}
+            'time': time[::1],
+            'pitch_shift': np.random.random(time[::1].size)*1e-2,}
     
     lims = {'time_evo': ('0','100'),
             'cutoff': ('0','100')}
