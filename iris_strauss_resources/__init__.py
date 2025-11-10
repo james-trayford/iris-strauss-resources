@@ -57,16 +57,16 @@ def sonify_notes(time, brightness, dur, ticks=True):
                                                  'R':0.2}})
     
     notes = [["C3","D#3","F3","G3","A#3","C4","D#4","F4","G4","A#4","C5","D#5","F5","G5","A#5"]]
-    score =  Score(notes, dur)
+    score =  Score(notes, dur, pitch_binning='uniform')
 
     print(brightness.dtype, time.dtype)
     
     data = {'pitch':brightness[::1],
             'time': time[::1],
-            'pitch_shift': np.random.random(time[::1].size)*1e-2,}
+            }#'pitch_shift': np.random.random(time[::1].size)*1e-2,}
 
     lims = {'time': ('0','101'),
-            'pitch_shift': (0,1),
+            #'pitch_shift': (0,1),
             'pitch': ('0','100')}
     
     # set up source
