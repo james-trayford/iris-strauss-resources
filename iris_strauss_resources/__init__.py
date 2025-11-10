@@ -42,7 +42,7 @@ def sonify_chord(time, brightness, dur, ticks=True):
     soni = Sonification(score, sources, generator, "stereo")
     soni.render()
     if ticks:
-        soni.add_ticks(1., duration=0.04, tick_vol=0.5)
+        soni.add_ticks(20., duration=0.04, tick_vol=0.5)
     dobj = soni.notebook_display(show_waveform=0)
 
 def sonify_notes(time, brightness, dur, ticks=True):
@@ -55,7 +55,8 @@ def sonify_notes(time, brightness, dur, ticks=True):
     #score =  Score(notes, 15, pitch_binning='adaptive')
 
     maps = {'pitch': brightness,
-            'time': time}
+            'time': time,
+            'pitch_shift': np.random.random(time.size)*5e-3}
 
     # specify audio system (e.g. mono, stereo, 5.1, ...)
     system = "stereo"
@@ -68,8 +69,8 @@ def sonify_notes(time, brightness, dur, ticks=True):
                                                  # A,D,R values in seconds, S sustain fraction from 0-1 that note
                                                  # will 'decay' to (after time A+D)
                                                  'A':0.02,    # ✏️ for such a fast sequence, using ~10 ms values
-                                                 'D':0.02,    # ✏️ for such a fast sequence, using ~10 ms values
-                                                 'S':1.,      # ✏️ decay to volume 0
+                                                 'D':0.08,    # ✏️ for such a fast sequence, using ~10 ms values
+                                                 'S':0.,      # ✏️ decay to volume 0
                                                  'R':0.001}}) # ✏️ for such a fast sequence, using ~10 ms values
 
     # set 0 to 100 percentile limits so the full pitch range is used...
@@ -78,7 +79,7 @@ def sonify_notes(time, brightness, dur, ticks=True):
     # we give all the notes time to ring out (setting this at 100% means
     # the final note is triggered at the momement the sonification ends)
     lims = {'time': ('0','101'),
-            'pitch_shift': ('0','100'),
+            'pitch_shift': (0,1),
             'pitch': ('0','100')}
 
     # set up source
@@ -88,8 +89,7 @@ def sonify_notes(time, brightness, dur, ticks=True):
 
     soni = Sonification(score, sources, generator, system)
     if ticks:
-        soni.add_ticks(1., duration=0.04, tick_vol=0.5)
-
+        soni.add_ticks(20., duration=0.04, tick_vol=0.5)
     soni.render()
     dobj = soni.notebook_display(show_waveform=0)
     
@@ -116,7 +116,7 @@ def sonify_wind(time, brightness, dur, ticks=True):
     soni = Sonification(score, sources, generator, 'stereo')
     soni.render()
     if ticks:
-        soni.add_ticks(1., duration=0.04, tick_vol=0.5)
+        soni.add_ticks(20., duration=0.04, tick_vol=0.5)
     dobj = soni.notebook_display(show_waveform=0)
 
 def sonify_lightcurve(time, brightness, style='wind', length='medium'):
